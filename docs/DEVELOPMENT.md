@@ -4,9 +4,9 @@ How Timebox is put together, the Stream Deck details that took time to learn,
 and ideas for later. Read with the [README](../README.md) and the
 [changelog](../CHANGELOG.md).
 
-- Plugin UUID: `com.tuf.streamdeck-timebox` (one plugin for every supported model)
-- Manifest: `com.tuf.streamdeck-timebox.sdPlugin/manifest.json`
-- Installed copy: `~/Library/Application Support/com.elgato.StreamDeck/Plugins/com.tuf.streamdeck-timebox.sdPlugin`
+- Plugin UUID: `io.github.tufacker.timebox` (one plugin for every supported model)
+- Manifest: `io.github.tufacker.timebox.sdPlugin/manifest.json`
+- Installed copy: `~/Library/Application Support/com.elgato.StreamDeck/Plugins/io.github.tufacker.timebox.sdPlugin`
 - User settings: `~/Documents/StreamDeck Timebox/timebox.json`
 
 ## Models
@@ -48,20 +48,21 @@ examples sized to its row, but no settings section or profile.
 
 ## Controls
 
+Every action UUID is the plugin's ID plus a short name, e.g.
+`io.github.tufacker.timebox.timer-1`.
+
 | Control | Action UUID | Press | Rotate |
 |---|---|---|---|
-| Timer keys 1–4 | `client-1` … `client-4` | select that timer | |
-| Timer keys 5–8 | `timer-5` … `timer-8` | select that timer | |
-| Block keys 1–4 | `preset-15`, `preset-30`, `preset-60`, `preset-120` | start that block, or pause/resume it while it is active | |
-| Block keys 5–8 | `block-5` … `block-8` | as above | |
+| Timer keys 1–8 | `timer-1` … `timer-8` | select that timer | |
+| Block keys 1–8 | `block-1` … `block-8` | start that block, or pause/resume it while it is active | |
 | Timeline key | `timeline` | leftmost: a minute less; rightmost: a minute more; middle of an odd row: reset | |
-| Dial 1 (Stream Deck +) | `client-dial` | reset to idle | scrub the time left by a minute per tick |
+| Dial 1 (Stream Deck +) | `scrub-dial` | reset to idle | scrub the time left by a minute per tick |
 | Dials 2–4 (Stream Deck +) | `duration-dial`, `type-dial`, `marker-dial` | reset to idle | reserved |
 
-UUIDs of keys 1–4 and the dials come from v1, when the top keys were clients
-and each block key had a fixed length. They stay as they are because the
-Stream Deck app stores keys by UUID: renaming one would empty that key on
-every existing deck. `timerActionUuid()` and `blockActionUuid()` in
+The Stream Deck app stores keys by UUID, so the plugin ID and these names must
+never change: a rename empties that key on every deck using it. (They changed
+once, in 2.1.0, when the plugin moved from `com.tuf.streamdeck-timebox` to
+`io.github.tufacker.timebox`.) `timerActionUuid()` and `blockActionUuid()` in
 `src/models.ts` map a column to its UUID, and a test checks the manifest has
 them all.
 
@@ -91,7 +92,7 @@ them all.
   Each instance draws for its own device and column.
 - `src/actions/dials.ts`: the four Stream Deck + dials; they draw the strip.
 - `src/plugin.ts`: registers the actions and answers the settings panel.
-- `com.tuf.streamdeck-timebox.sdPlugin/ui/settings.html`: the settings panel
+- `io.github.tufacker.timebox.sdPlugin/ui/settings.html`: the settings panel
   (the manifest's `PropertyInspectorPath`), plain HTML and JavaScript.
 - `scripts/`: icon, bundle, profile and package builds, and
   `build-screenshots.mjs` (`npm run screenshots`), which draws the README
@@ -158,10 +159,10 @@ gestures that would fight it.
 ```zsh
 npm run verify
 ./install.sh
-tail -n 200 "$HOME/Library/Logs/ElgatoStreamDeck/StreamDeck.log" | grep -i -E 'com.tuf.streamdeck-timebox|Plugin connected|Problem with connecting|Device connected'
+tail -n 200 "$HOME/Library/Logs/ElgatoStreamDeck/StreamDeck.log" | grep -i -E 'io.github.tufacker.timebox|Plugin connected|Problem with connecting|Device connected'
 ```
 
-Expect `[com.tuf.streamdeck-timebox] Plugin connected` and `Device
+Expect `[io.github.tufacker.timebox] Plugin connected` and `Device
 connected`. If reopening the app fails with Launch Services errors such as
 `-600` or `-609`, run `open -a "Elgato Stream Deck"`.
 

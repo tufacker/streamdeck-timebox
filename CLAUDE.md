@@ -8,7 +8,7 @@ standing rules and the current state.
 
 ## Working rules
 
-- Change `src/`, `scripts/` or the files in `com.tuf.streamdeck-timebox.sdPlugin/`
+- Change `src/`, `scripts/` or the files in `io.github.tufacker.timebox.sdPlugin/`
   that aren't generated, then run `npm run verify` (type-check, tests, build).
   Never edit `bin/plugin.js`, the generated profile or anything in `dist/`.
 - Never rename an action UUID: the Stream Deck app stores keys by UUID, so a

@@ -9,7 +9,7 @@ import {
 } from "../src/models.ts";
 import { TimeboxStore } from "../src/state.ts";
 
-const manifest = JSON.parse(readFileSync(new URL("../com.tuf.streamdeck-timebox.sdPlugin/manifest.json", import.meta.url), "utf8"));
+const manifest = JSON.parse(readFileSync(new URL("../io.github.tufacker.timebox.sdPlugin/manifest.json", import.meta.url), "utf8"));
 const manifestUuids = new Set(manifest.Actions.map((a: { UUID: string }) => a.UUID));
 
 test("the manifest has every key action a model can need", () => {
@@ -21,9 +21,11 @@ test("the manifest has every key action a model can need", () => {
   for (const uuid of DIAL_ACTION_UUIDS) assert.ok(manifestUuids.has(uuid), uuid);
 });
 
-test("v1's key UUIDs are unchanged, so existing decks keep their keys", () => {
-  assert.deepEqual([0, 1, 2, 3].map(timerActionUuid), [1, 2, 3, 4].map((n) => `com.tuf.streamdeck-timebox.client-${n}`));
-  assert.deepEqual([0, 1, 2, 3].map(blockActionUuid), [15, 30, 60, 120].map((m) => `com.tuf.streamdeck-timebox.preset-${m}`));
+test("action UUIDs live under the plugin's ID and follow the key's column", () => {
+  assert.equal(manifest.UUID, "io.github.tufacker.timebox");
+  assert.deepEqual([0, 1, 7].map(timerActionUuid), [1, 2, 8].map((n) => `io.github.tufacker.timebox.timer-${n}`));
+  assert.deepEqual([0, 1, 7].map(blockActionUuid), [1, 2, 8].map((n) => `io.github.tufacker.timebox.block-${n}`));
+  for (const action of manifest.Actions) assert.ok(action.UUID.startsWith(`${manifest.UUID}.`), action.UUID);
 });
 
 test("every model has a profile in the manifest, an example block per column, and fits the slots", () => {

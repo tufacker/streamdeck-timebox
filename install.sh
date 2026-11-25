@@ -2,7 +2,7 @@
 set -euo pipefail
 
 script_dir=${0:A:h}
-plugin_name="com.tuf.streamdeck-timebox.sdPlugin"
+plugin_name="io.github.tufacker.timebox.sdPlugin"
 plugin_src="$script_dir/$plugin_name"
 plugin_dst="$HOME/Library/Application Support/com.elgato.StreamDeck/Plugins/$plugin_name"
 

@@ -60,7 +60,7 @@ abstract class TimeboxDialAction extends SingletonAction {
   }
 }
 
-@action({ UUID: "com.tuf.streamdeck-timebox.client-dial" })
+@action({ UUID: "io.github.tufacker.timebox.scrub-dial" })
 export class ScrubDialAction extends TimeboxDialAction {
   protected readonly stripIndex = 0;
 
@@ -69,7 +69,7 @@ export class ScrubDialAction extends TimeboxDialAction {
   }
 }
 
-@action({ UUID: "com.tuf.streamdeck-timebox.duration-dial" })
+@action({ UUID: "io.github.tufacker.timebox.duration-dial" })
 export class DurationDialAction extends TimeboxDialAction {
   protected readonly stripIndex = 1;
 
@@ -78,7 +78,7 @@ export class DurationDialAction extends TimeboxDialAction {
   }
 }
 
-@action({ UUID: "com.tuf.streamdeck-timebox.type-dial" })
+@action({ UUID: "io.github.tufacker.timebox.type-dial" })
 export class TypeDialAction extends TimeboxDialAction {
   protected readonly stripIndex = 2;
 
@@ -87,7 +87,7 @@ export class TypeDialAction extends TimeboxDialAction {
   }
 }
 
-@action({ UUID: "com.tuf.streamdeck-timebox.marker-dial" })
+@action({ UUID: "io.github.tufacker.timebox.marker-dial" })
 export class MarkerDialAction extends TimeboxDialAction {
   protected readonly stripIndex = 3;
 

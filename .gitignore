@@ -3,8 +3,8 @@ node_modules/
 *.streamDeckProfile
 *.log
 .DS_Store
-com.tuf.streamdeck-timebox.sdPlugin/bin/*
-!com.tuf.streamdeck-timebox.sdPlugin/bin/.gitkeep
+io.github.tufacker.timebox.sdPlugin/bin/*
+!io.github.tufacker.timebox.sdPlugin/bin/.gitkeep
 
 # Build output and private material
 dist/

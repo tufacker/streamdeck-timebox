@@ -3,7 +3,7 @@
 // keys: timers on the top row, blocks on the second, timeline keys on the third
 // (keypad-only models) and the four dials (Stream Deck +).
 import { randomUUID } from "node:crypto";
-import { copyFileSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -13,14 +13,14 @@ import {
 } from "../src/models.ts";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const pluginRoot = join(projectRoot, "com.tuf.streamdeck-timebox.sdPlugin");
+const pluginRoot = join(projectRoot, "io.github.tufacker.timebox.sdPlugin");
 const manifest = JSON.parse(readFileSync(join(pluginRoot, "manifest.json"), "utf8"));
 const plugin = { Name: manifest.Name, UUID: manifest.UUID, Version: manifest.Version };
 
 // Fixed IDs, so a rebuilt profile is the same profile to the Stream Deck app.
 const PROFILE_IDS = {
-  "stream-deck-plus": { profile: "A79B4F58-9C48-4D26-A6E2-89F2351F6261", main: "E571BEF2-A080-435C-A756-C57D0116A335", blank: "C58E5805-3206-459B-A1AC-3E11863B78CB" },
-  "stream-deck-mk2": { profile: "B4F4F240-03B8-44F6-83CF-1CE95B3DF246", main: "B6A13F64-F5B2-4F7E-ACD6-EA7A498FC7A2", blank: "6FC03AB8-CFE0-475C-9B61-99A5A2B9A29B" }
+  "stream-deck-plus": { profile: "D4D9D80E-18FC-449D-8A3A-518CBF3C8609", main: "FC2C71C8-7635-46A9-B344-D90F9B1DFCF8", blank: "C1397098-84CE-454F-B4C0-F02137AE9639" },
+  "stream-deck-mk2": { profile: "07AFB4FE-F5EA-498A-8D0A-FB91625EF5FC", main: "4D9C1813-9257-4437-9958-86FA0BE96F17", blank: "0DFE3FC1-1058-47E4-A478-97CB9A128AEA" }
 };
 
 // The profile is installed onto whichever device of the model the app picks,
@@ -56,6 +56,17 @@ function blankPage(model) {
   const controllers = [{ Actions: {}, Type: "Keypad" }];
   if (model.encoders > 0) controllers.push({ Actions: {}, Type: "Encoder" });
   return { Controllers: controllers, Icon: "", Name: "" };
+}
+
+// Only the models' profiles belong in the plugin folder: remove any other
+// .streamDeckProfile there (old names, or copies a file-sync tool left after a
+// rename), so they can't end up in a package.
+const expected = new Set(MODELS.map((model) => `${model.profile.file}.streamDeckProfile`.toLowerCase()));
+for (const name of readdirSync(pluginRoot)) {
+  if (name.toLowerCase().endsWith(".streamdeckprofile") && !expected.has(name.toLowerCase())) {
+    rmSync(join(pluginRoot, name));
+    console.log(`Removed stray profile ${name}`);
+  }
 }
 
 for (const model of MODELS) {

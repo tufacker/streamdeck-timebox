@@ -136,8 +136,8 @@ npm run verify     # type-check, test, and build
 
 `npm run verify` builds:
 
-- `com.tuf.streamdeck-timebox.sdPlugin/bin/plugin.js`, the plugin itself;
-- a profile for each model in `com.tuf.streamdeck-timebox.sdPlugin/`,
+- `io.github.tufacker.timebox.sdPlugin/bin/plugin.js`, the plugin itself;
+- a profile for each model in `io.github.tufacker.timebox.sdPlugin/`,
   installed with the plugin;
 - `dist/StreamDeck-Timebox.streamDeckPlugin`, a package you can double-click to
   install, and spare copies of the profiles in `dist/`.
@@ -160,7 +160,7 @@ redraws the images above.
 If the keys don't respond, check the Stream Deck log:
 
 ```zsh
-tail -n 200 "$HOME/Library/Logs/ElgatoStreamDeck/StreamDeck.log" | grep -i -E 'com.tuf.streamdeck-timebox|Plugin connected|Problem with connecting|Device connected'
+tail -n 200 "$HOME/Library/Logs/ElgatoStreamDeck/StreamDeck.log" | grep -i -E 'io.github.tufacker.timebox|Plugin connected|Problem with connecting|Device connected'
 ```
 
 If it shows `Read serial number: FAILED` or `Problem with connecting HID
@@ -168,7 +168,7 @@ device`, the Stream Deck app has lost the hardware: unplug and reconnect the
 Stream Deck, then restart the app.
 
 The plugin's own log (including any problem reading `timebox.json`) is in
-`~/Library/Application Support/com.elgato.StreamDeck/Plugins/com.tuf.streamdeck-timebox.sdPlugin/logs/`.
+`~/Library/Application Support/com.elgato.StreamDeck/Plugins/io.github.tufacker.timebox.sdPlugin/logs/`.
 
 ## License
 

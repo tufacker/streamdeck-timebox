@@ -75,21 +75,19 @@ export function modelForDeviceType(deviceType: number | undefined): Model | unde
   return MODELS.find((model) => model.deviceType === deviceType);
 }
 
-const PLUGIN_UUID = "com.tuf.streamdeck-timebox";
-// Keys 1-4 keep their v1 UUIDs (see src/actions/keys.ts).
-const BLOCK_V1_UUIDS = ["preset-15", "preset-30", "preset-60", "preset-120"];
+const PLUGIN_UUID = "io.github.tufacker.timebox";
 
 /** Action UUID of the timer key in a column (0-based). */
 export function timerActionUuid(index: number): string {
-  return `${PLUGIN_UUID}.${index < 4 ? `client-${index + 1}` : `timer-${index + 1}`}`;
+  return `${PLUGIN_UUID}.timer-${index + 1}`;
 }
 
 /** Action UUID of the block key in a column (0-based). */
 export function blockActionUuid(index: number): string {
-  return `${PLUGIN_UUID}.${BLOCK_V1_UUIDS[index] ?? `block-${index + 1}`}`;
+  return `${PLUGIN_UUID}.block-${index + 1}`;
 }
 
 export const TIMELINE_ACTION_UUID = `${PLUGIN_UUID}.timeline`;
 /** The four dials under the Stream Deck + strip, left to right. */
-export const DIAL_ACTION_UUIDS = ["client-dial", "duration-dial", "type-dial", "marker-dial"].map((id) => `${PLUGIN_UUID}.${id}`);
+export const DIAL_ACTION_UUIDS = ["scrub-dial", "duration-dial", "type-dial", "marker-dial"].map((id) => `${PLUGIN_UUID}.${id}`);
 export const DIAL_NAMES = ["Scrub Dial", "Duration Dial", "Session Type Dial", "Marker Dial"];

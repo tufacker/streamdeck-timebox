@@ -101,7 +101,7 @@ abstract class BlockKeyAction extends TimeboxKeyAction {
  * the time left, the rightmost adds one, and the middle key of an odd row
  * resets.
  */
-@action({ UUID: "com.tuf.streamdeck-timebox.timeline" })
+@action({ UUID: "io.github.tufacker.timebox.timeline" })
 export class TimelineKeyAction extends TimeboxKeyAction {
   override onKeyDown(event: KeyDownEvent): void {
     if (!event.action.isKey()) return;
@@ -118,41 +118,40 @@ export class TimelineKeyAction extends TimeboxKeyAction {
   }
 }
 
-// Timer and block keys 1-4 keep the UUIDs from v1 (when the top keys were
-// clients and each block key had a fixed length): the Stream Deck app stores
-// keys by UUID, so renaming them would empty existing decks.
-@action({ UUID: "com.tuf.streamdeck-timebox.client-1" })
+// The Stream Deck app stores keys by UUID: never rename these, or every
+// deck using the key loses it. Add new actions instead.
+@action({ UUID: "io.github.tufacker.timebox.timer-1" })
 export class Timer1Action extends TimerKeyAction { protected readonly timerIndex = 0; }
-@action({ UUID: "com.tuf.streamdeck-timebox.client-2" })
+@action({ UUID: "io.github.tufacker.timebox.timer-2" })
 export class Timer2Action extends TimerKeyAction { protected readonly timerIndex = 1; }
-@action({ UUID: "com.tuf.streamdeck-timebox.client-3" })
+@action({ UUID: "io.github.tufacker.timebox.timer-3" })
 export class Timer3Action extends TimerKeyAction { protected readonly timerIndex = 2; }
-@action({ UUID: "com.tuf.streamdeck-timebox.client-4" })
+@action({ UUID: "io.github.tufacker.timebox.timer-4" })
 export class Timer4Action extends TimerKeyAction { protected readonly timerIndex = 3; }
-@action({ UUID: "com.tuf.streamdeck-timebox.timer-5" })
+@action({ UUID: "io.github.tufacker.timebox.timer-5" })
 export class Timer5Action extends TimerKeyAction { protected readonly timerIndex = 4; }
-@action({ UUID: "com.tuf.streamdeck-timebox.timer-6" })
+@action({ UUID: "io.github.tufacker.timebox.timer-6" })
 export class Timer6Action extends TimerKeyAction { protected readonly timerIndex = 5; }
-@action({ UUID: "com.tuf.streamdeck-timebox.timer-7" })
+@action({ UUID: "io.github.tufacker.timebox.timer-7" })
 export class Timer7Action extends TimerKeyAction { protected readonly timerIndex = 6; }
-@action({ UUID: "com.tuf.streamdeck-timebox.timer-8" })
+@action({ UUID: "io.github.tufacker.timebox.timer-8" })
 export class Timer8Action extends TimerKeyAction { protected readonly timerIndex = 7; }
 
-@action({ UUID: "com.tuf.streamdeck-timebox.preset-15" })
+@action({ UUID: "io.github.tufacker.timebox.block-1" })
 export class Block1Action extends BlockKeyAction { protected readonly slot = 0; }
-@action({ UUID: "com.tuf.streamdeck-timebox.preset-30" })
+@action({ UUID: "io.github.tufacker.timebox.block-2" })
 export class Block2Action extends BlockKeyAction { protected readonly slot = 1; }
-@action({ UUID: "com.tuf.streamdeck-timebox.preset-60" })
+@action({ UUID: "io.github.tufacker.timebox.block-3" })
 export class Block3Action extends BlockKeyAction { protected readonly slot = 2; }
-@action({ UUID: "com.tuf.streamdeck-timebox.preset-120" })
+@action({ UUID: "io.github.tufacker.timebox.block-4" })
 export class Block4Action extends BlockKeyAction { protected readonly slot = 3; }
-@action({ UUID: "com.tuf.streamdeck-timebox.block-5" })
+@action({ UUID: "io.github.tufacker.timebox.block-5" })
 export class Block5Action extends BlockKeyAction { protected readonly slot = 4; }
-@action({ UUID: "com.tuf.streamdeck-timebox.block-6" })
+@action({ UUID: "io.github.tufacker.timebox.block-6" })
 export class Block6Action extends BlockKeyAction { protected readonly slot = 5; }
-@action({ UUID: "com.tuf.streamdeck-timebox.block-7" })
+@action({ UUID: "io.github.tufacker.timebox.block-7" })
 export class Block7Action extends BlockKeyAction { protected readonly slot = 6; }
-@action({ UUID: "com.tuf.streamdeck-timebox.block-8" })
+@action({ UUID: "io.github.tufacker.timebox.block-8" })
 export class Block8Action extends BlockKeyAction { protected readonly slot = 7; }
 
 export const KEY_ACTIONS = [

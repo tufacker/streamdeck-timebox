@@ -1,6 +1,6 @@
 {
   "name": "streamdeck-timebox",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Visual ADHD-style timeboxing timer for the Stream Deck + and Stream Deck MK.2.",
   "private": true,
   "type": "module",
@@ -21,7 +21,7 @@
     "check": "tsc --noEmit",
     "test": "node --import ./test/ts-resolve.mjs --test test/",
     "verify": "npm run check && npm test && npm run pack",
-    "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.tuf.streamdeck-timebox\"",
+    "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart io.github.tufacker.timebox\"",
     "screenshots": "node scripts/build-screenshots.mjs"
   },
   "dependencies": {

@@ -5,6 +5,31 @@ same commit as the change; see `CLAUDE.md`.
 
 ## Unreleased
 
+## v2.1.0 — 2026-11-25
+
+The plugin has a new ID, so the Stream Deck app sees it as a new plugin.
+
+- **New plugin ID `io.github.tufacker.timebox`** (was `com.tuf.streamdeck-timebox`,
+  which suggested a domain the project doesn't own). Key IDs are simpler too:
+  `timer-1`…`timer-8`, `block-1`…`block-8`, `timeline` and `scrub-dial`
+  replace the v1 names (`client-1`, `preset-15`, `client-dial`), and the
+  plugin folder is `io.github.tufacker.timebox.sdPlugin`.
+- **Upgrading from 2.0.0:** install this release, switch to its Timebox
+  profile, then remove the old Timebox plugin in the Stream Deck app
+  (Preferences › Plugins) and its old Timebox profile. Settings in
+  `timebox.json` are untouched and carry over.
+- The bundled profiles have new IDs, so they install next to the old ones
+  instead of replacing them.
+- **Package clean-up:** the 2.0.0 package contained two stray copies of the
+  Stream Deck + profile, left by a file-sync tool after the profile file was
+  renamed. They were unused (not listed in the manifest) and contained no
+  personal data. The build now removes any profile file in the plugin folder
+  that isn't a model's profile.
+
+Verified: type-check, tests and build; installed from the package on a
+Stream Deck + and a Stream Deck MK.2 (see the 2.1.0 release notes).
+
+
 ## v2.0.0 — 2026-11-25
 
 First public release. Timers and block lengths are now yours to set, and one

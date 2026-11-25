@@ -5,7 +5,7 @@ import path from "node:path";
 import url from "node:url";
 
 const isWatching = Boolean(process.env.ROLLUP_WATCH);
-const pluginDirectory = "com.tuf.streamdeck-timebox.sdPlugin";
+const pluginDirectory = "io.github.tufacker.timebox.sdPlugin";
 
 export default {
   input: "src/plugin.ts",

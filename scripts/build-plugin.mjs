@@ -4,7 +4,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const pluginDirectory = "com.tuf.streamdeck-timebox.sdPlugin";
+const pluginDirectory = "io.github.tufacker.timebox.sdPlugin";
 const output = join(projectRoot, "dist", "StreamDeck-Timebox.streamDeckPlugin");
 
 mkdirSync(dirname(output), { recursive: true });
