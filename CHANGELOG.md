@@ -14,9 +14,11 @@ The plugin has a new ID, so the Stream Deck app sees it as a new plugin.
   `timer-1`…`timer-8`, `block-1`…`block-8`, `timeline` and `scrub-dial`
   replace the v1 names (`client-1`, `preset-15`, `client-dial`), and the
   plugin folder is `io.github.tufacker.timebox.sdPlugin`.
-- **Upgrading from 2.0.0:** install this release, switch to its Timebox
-  profile, then remove the old Timebox plugin in the Stream Deck app
-  (Preferences › Plugins) and its old Timebox profile. Settings in
+- **Upgrading from 2.0.0:** double-click the new package and accept both
+  prompts (install the plugin, install its profiles). The new profile arrives
+  as "Timebox copy" next to the old one. Switch the deck to it, then remove
+  the old Timebox plugin (Stream Deck app › Preferences › Plugins) and delete
+  the old Timebox profile; rename the new one if you like. Settings in
   `timebox.json` are untouched and carry over.
 - The bundled profiles have new IDs, so they install next to the old ones
   instead of replacing them.
@@ -26,8 +28,10 @@ The plugin has a new ID, so the Stream Deck app sees it as a new plugin.
   personal data. The build now removes any profile file in the plugin folder
   that isn't a model's profile.
 
-Verified: type-check, tests and build; installed from the package on a
-Stream Deck + and a Stream Deck MK.2 (see the 2.1.0 release notes).
+Verified: type-check, 46 tests and build; installed from the package on a
+Stream Deck + and a Stream Deck MK.2 (both prompts, profile per device),
+each reading its existing settings, with the 2.0 plugin and profile removed
+afterwards.
 
 
 ## v2.0.0 — 2026-11-25
