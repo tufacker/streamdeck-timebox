@@ -1,0 +1,12 @@
+node_modules/
+*.streamDeckPlugin
+*.streamDeckProfile
+*.log
+.DS_Store
+com.tuf.streamdeck-timebox.sdPlugin/bin/*
+!com.tuf.streamdeck-timebox.sdPlugin/bin/.gitkeep
+
+# Build output and private material
+dist/
+archive/
+CLAUDE_HANDOFF.md

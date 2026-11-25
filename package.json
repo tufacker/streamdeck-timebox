@@ -1,0 +1,43 @@
+{
+  "name": "streamdeck-timebox",
+  "version": "2.0.0",
+  "description": "Visual ADHD-style timeboxing timer for the Stream Deck + and Stream Deck MK.2.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tufacker/streamdeck-timebox.git"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "build": "node scripts/build-js.mjs",
+    "icons": "node scripts/build-icons.mjs",
+    "profile": "node scripts/build-profile.mjs",
+    "plugin": "node scripts/build-plugin.mjs",
+    "pack": "npm run icons && npm run build && npm run profile && npm run plugin",
+    "check": "tsc --noEmit",
+    "test": "node --import ./test/ts-resolve.mjs --test test/",
+    "verify": "npm run check && npm test && npm run pack",
+    "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.tuf.streamdeck-timebox\"",
+    "screenshots": "node scripts/build-screenshots.mjs"
+  },
+  "dependencies": {
+    "@elgato/streamdeck": "^2.1.2"
+  },
+  "devDependencies": {
+    "@elgato/cli": "^1.9.0",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@tsconfig/node20": "^20.1.6",
+    "@types/node": "^26.6.2",
+    "rollup": "^4.63.4",
+    "sharp": "^0.34.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
+  }
+}

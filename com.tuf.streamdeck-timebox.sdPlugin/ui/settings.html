@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timebox settings</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; padding: 10px 12px 14px;
+    background: #2d2d2d; color: #d8d8d8;
+    font: 12px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  h2 { margin: 14px 0 6px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #9a9a9a; }
+  h2:first-child { margin-top: 2px; }
+  .hint { margin: 0 0 8px; color: #8c8c8c; font-size: 11px; }
+  .row { display: grid; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .row > * { min-width: 0; }
+  .timer { grid-template-columns: 16px 1fr 30px 30px; }
+  .block { grid-template-columns: 16px 64px 1fr 34px; }
+  .heads { margin-bottom: 2px; color: #8c8c8c; font-size: 10px; }
+  .n { color: #8c8c8c; text-align: right; }
+  input[type=text], input[type=number] {
+    width: 100%; box-sizing: border-box; padding: 4px 6px;
+    background: #3d3d3d; color: #eee; border: 1px solid #4a4a4a; border-radius: 3px; font: inherit;
+  }
+  input:focus { outline: none; border-color: #2d8cff; }
+  input[type=color] { width: 30px; height: 24px; padding: 0; border: 1px solid #4a4a4a; border-radius: 3px; background: none; }
+  .preview { height: 24px; border-radius: 3px; display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #eaffff; overflow: hidden; }
+  .actions { display: flex; gap: 8px; margin-top: 14px; }
+  button { flex: 1; padding: 6px 8px; border: 1px solid #4a4a4a; border-radius: 3px; background: #3d3d3d; color: #eee; font: inherit; cursor: pointer; }
+  button.primary { background: #2d8cff; border-color: #2d8cff; color: #fff; font-weight: 600; }
+  button:disabled { opacity: .5; cursor: default; }
+  #status { min-height: 16px; margin-top: 8px; font-size: 11px; color: #8c8c8c; }
+  #status.ok { color: #6fd38a; }
+  #status.error { color: #ff7a6b; }
+  .path { margin-top: 10px; font-size: 10px; color: #777; word-break: break-all; }
+  .model { margin: 0 0 4px; font-size: 11px; color: #bdbdbd; }
+  .model strong { color: #eee; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div id="model" class="model"></div>
+  <div id="editor" hidden>
+  <h2>Timers</h2>
+  <p class="hint" id="timers-hint">The top row. Pick a timer, then start a block.</p>
+  <div class="row timer heads"><span></span><span>Name</span><span title="Key colour">Key</span><span title="Highlight: key stripe and the strip's remaining time">Strip</span></div>
+  <div id="timers"></div>
+
+  <h2>Time blocks</h2>
+  <p class="hint" id="blocks-hint">The second row, in minutes (1–480). Leave the label empty for 15M, 1H…</p>
+  <div class="row block heads"><span></span><span>Minutes</span><span>Label (optional)</span><span></span></div>
+  <div id="blocks"></div>
+
+  <div class="actions">
+    <button id="examples" type="button" title="Fill in the example timers and blocks (not saved until you press Save)">Examples</button>
+    <button id="save" class="primary" type="button" disabled>Save</button>
+  </div>
+  </div>
+  <div id="status">Loading…</div>
+  <div class="path" id="path"></div>
+
+<script>
+  const MAX_MINUTES = 480;
+  const timersBox = document.getElementById("timers");
+  const blocksBox = document.getElementById("blocks");
+  const saveButton = document.getElementById("save");
+  const status = document.getElementById("status");
+  let socket, context, action, examples = null;
+
+  const setStatus = (text, kind = "") => { status.textContent = text; status.className = kind; };
+  const autoLabel = (minutes) => (minutes % 60 === 0 ? `${minutes / 60}H` : `${minutes}M`);
+
+  function timerRow(index) {
+    const row = document.createElement("div");
+    row.className = "row timer";
+    row.innerHTML = `<span class="n">${index + 1}</span>
+      <input type="text" maxlength="24" data-field="name" aria-label="Timer ${index + 1} name">
+      <input type="color" data-field="color" aria-label="Timer ${index + 1} key colour">
+      <input type="color" data-field="accent" aria-label="Timer ${index + 1} highlight colour">`;
+    return row;
+  }
+  function blockRow(index) {
+    const row = document.createElement("div");
+    row.className = "row block";
+    row.innerHTML = `<span class="n">${index + 1}</span>
+      <input type="number" min="1" max="${MAX_MINUTES}" step="1" data-field="minutes" aria-label="Block ${index + 1} minutes">
+      <input type="text" maxlength="6" data-field="label" aria-label="Block ${index + 1} label">
+      <div class="preview" data-field="preview"></div>`;
+    return row;
+  }
+  // One row per column of the model the panel was opened on.
+  function buildRows(count) {
+    timersBox.replaceChildren(...Array.from({ length: count }, (_, i) => timerRow(i)));
+    blocksBox.replaceChildren(...Array.from({ length: count }, (_, i) => blockRow(i)));
+  }
+  const field = (row, name) => row.querySelector(`[data-field="${name}"]`);
+
+  function showBlockPreview(row) {
+    const minutes = Math.round(Number(field(row, "minutes").value));
+    const label = field(row, "label").value.trim();
+    const preview = field(row, "preview");
+    const valid = minutes >= 1 && minutes <= MAX_MINUTES;
+    preview.textContent = valid ? (label || autoLabel(minutes)) : "?";
+    preview.style.background = valid ? "#1b2833" : "#5a2620";
+    field(row, "label").placeholder = valid ? autoLabel(minutes) : "";
+  }
+
+  function fill(settings) {
+    [...timersBox.children].forEach((row, i) => {
+      const timer = settings.timers[i] || {};
+      field(row, "name").value = timer.name || "";
+      field(row, "color").value = timer.color || "#1b2833";
+      field(row, "accent").value = timer.accent || "#47c7ff";
+    });
+    [...blocksBox.children].forEach((row, i) => {
+      const block = settings.blocks[i];
+      const minutes = typeof block === "number" ? block : block && block.minutes;
+      field(row, "minutes").value = minutes || "";
+      field(row, "label").value = typeof block === "object" && block ? block.label || "" : "";
+      showBlockPreview(row);
+    });
+  }
+
+  function collect() {
+    const problems = [];
+    const timers = [...timersBox.children].map((row, i) => {
+      const name = field(row, "name").value.trim();
+      if (!name) problems.push(`Timer ${i + 1} needs a name`);
+      return { name, color: field(row, "color").value, accent: field(row, "accent").value };
+    });
+    const blocks = [...blocksBox.children].map((row, i) => {
+      const minutes = Math.round(Number(field(row, "minutes").value));
+      if (!(minutes >= 1 && minutes <= MAX_MINUTES)) problems.push(`Block ${i + 1} must be 1–${MAX_MINUTES} minutes`);
+      const label = field(row, "label").value.trim();
+      return label ? { minutes, label } : minutes;
+    });
+    return { settings: { timers, blocks }, problems };
+  }
+
+  function send(payload) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ event: "sendToPlugin", action, context, payload }));
+    }
+  }
+
+  document.body.addEventListener("input", (event) => {
+    const row = event.target.closest(".block");
+    if (row) showBlockPreview(row);
+    saveButton.disabled = false;
+    setStatus("Not saved yet.");
+  });
+  saveButton.addEventListener("click", () => {
+    const { settings, problems } = collect();
+    if (problems.length) { setStatus(problems.join(". ") + ".", "error"); return; }
+    saveButton.disabled = true;
+    setStatus("Saving…");
+    send({ event: "save", settings });
+  });
+  document.getElementById("examples").addEventListener("click", () => {
+    if (!examples) return;
+    fill(examples);
+    saveButton.disabled = false;
+    setStatus("Examples filled in. Press Save to use them.");
+  });
+
+  // Called by the Stream Deck app when the panel opens.
+  window.connectElgatoStreamDeckSocket = (port, uuid, registerEvent, _info, actionInfo) => {
+    context = uuid;
+    try { action = JSON.parse(actionInfo).action; } catch { action = undefined; }
+    socket = new WebSocket(`ws://127.0.0.1:${port}`);
+    socket.addEventListener("open", () => {
+      socket.send(JSON.stringify({ event: registerEvent, uuid }));
+      send({ event: "load" });
+    });
+    socket.addEventListener("message", (message) => {
+      const data = JSON.parse(message.data);
+      if (data.event !== "sendToPropertyInspector") return;
+      const payload = data.payload || {};
+      if (payload.event === "unsupported") {
+        document.getElementById("model").textContent =
+          `Timebox doesn't have a layout for ${payload.device || "this device"} yet. Supported: ${payload.supported.join(", ")}.`;
+        setStatus("");
+      } else if (payload.event === "settings") {
+        examples = payload.examples;
+        buildRows(payload.model.columns);
+        document.getElementById("model").innerHTML = `Settings for your <strong></strong>`;
+        document.querySelector("#model strong").textContent = payload.model.name;
+        document.getElementById("editor").hidden = false;
+        fill(payload.settings);
+        document.getElementById("path").textContent = `Saved in ${payload.path}`;
+        saveButton.disabled = true;
+        setStatus("");
+      } else if (payload.event === "saved") {
+        fill(payload.settings);
+        saveButton.disabled = true;
+        setStatus("Saved. The deck is updated.", "ok");
+      } else if (payload.event === "error") {
+        saveButton.disabled = false;
+        setStatus(`Could not save: ${payload.message}`, "error");
+      }
+    });
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "Name": "Timebox",
+  "Version": "2.0.0.0",
+  "Author": "tufacker",
+  "Description": "ADHD-style visual timeboxing timer for Stream Deck + and Stream Deck MK.2.",
+  "URL": "https://github.com/tufacker/streamdeck-timebox",
+  "UUID": "com.tuf.streamdeck-timebox",
+  "Category": "Timebox",
+  "CategoryIcon": "imgs/plugin/category-icon",
+  "Icon": "imgs/plugin/marketplace",
+  "CodePath": "bin/plugin.js",
+  "PropertyInspectorPath": "ui/settings.html",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "6.6"
+  },
+  "Nodejs": {
+    "Version": "20"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "12"
+    }
+  ],
+  "Profiles": [
+    {
+      "Name": "Timebox",
+      "DeviceType": 7,
+      "Readonly": false,
+      "DontAutoSwitchWhenInstalled": false,
+      "AutoInstall": true
+    },
+    {
+      "Name": "timebox-mk2",
+      "DeviceType": 0,
+      "Readonly": false,
+      "DontAutoSwitchWhenInstalled": false,
+      "AutoInstall": true
+    }
+  ],
+  "Actions": [
+    {
+      "Name": "Timer 1",
+      "UUID": "com.tuf.streamdeck-timebox.client-1",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 1 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timer 2",
+      "UUID": "com.tuf.streamdeck-timebox.client-2",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 2 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timer 3",
+      "UUID": "com.tuf.streamdeck-timebox.client-3",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 3 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timer 4",
+      "UUID": "com.tuf.streamdeck-timebox.client-4",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 4 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timer 5",
+      "UUID": "com.tuf.streamdeck-timebox.timer-5",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 5 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timer 6",
+      "UUID": "com.tuf.streamdeck-timebox.timer-6",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 6 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timer 7",
+      "UUID": "com.tuf.streamdeck-timebox.timer-7",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 7 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timer 8",
+      "UUID": "com.tuf.streamdeck-timebox.timer-8",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Select timer 8 (set in the settings panel) without starting it.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 1",
+      "UUID": "com.tuf.streamdeck-timebox.preset-15",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 1 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 2",
+      "UUID": "com.tuf.streamdeck-timebox.preset-30",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 2 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 3",
+      "UUID": "com.tuf.streamdeck-timebox.preset-60",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 3 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 4",
+      "UUID": "com.tuf.streamdeck-timebox.preset-120",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 4 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 5",
+      "UUID": "com.tuf.streamdeck-timebox.block-5",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 5 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 6",
+      "UUID": "com.tuf.streamdeck-timebox.block-6",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 6 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 7",
+      "UUID": "com.tuf.streamdeck-timebox.block-7",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 7 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Block 8",
+      "UUID": "com.tuf.streamdeck-timebox.block-8",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Start time block 8 (set in the settings panel); press again to pause or resume.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Timeline",
+      "UUID": "com.tuf.streamdeck-timebox.timeline",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "One slice of the timeline bar, for decks without a touch strip. Leftmost key: a minute less; rightmost: a minute more; middle key: reset.",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action",
+          "ShowTitle": false
+        }
+      ]
+    },
+    {
+      "Name": "Scrub Dial",
+      "UUID": "com.tuf.streamdeck-timebox.client-dial",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Rotate to scrub the timer. Press to reset.",
+      "Controllers": [
+        "Encoder"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action"
+        }
+      ],
+      "Encoder": {
+        "layout": "layouts/dial.json",
+        "StackColor": "#A8F09B",
+        "TriggerDescription": {
+          "Rotate": "Scrub timer",
+          "Push": "Reset"
+        }
+      }
+    },
+    {
+      "Name": "Duration Dial",
+      "UUID": "com.tuf.streamdeck-timebox.duration-dial",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Reserved for future timer controls. Press to reset.",
+      "Controllers": [
+        "Encoder"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action"
+        }
+      ],
+      "Encoder": {
+        "layout": "layouts/dial.json",
+        "StackColor": "#FFE079",
+        "TriggerDescription": {
+          "Rotate": "Reserved",
+          "Push": "Reset"
+        }
+      }
+    },
+    {
+      "Name": "Session Type Dial",
+      "UUID": "com.tuf.streamdeck-timebox.type-dial",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Reserved for future timer controls. Press to reset.",
+      "Controllers": [
+        "Encoder"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action"
+        }
+      ],
+      "Encoder": {
+        "layout": "layouts/dial.json",
+        "StackColor": "#F2B9E8",
+        "TriggerDescription": {
+          "Rotate": "Reserved",
+          "Push": "Reset"
+        }
+      }
+    },
+    {
+      "Name": "Marker Dial",
+      "UUID": "com.tuf.streamdeck-timebox.marker-dial",
+      "Icon": "imgs/actions/action",
+      "Tooltip": "Reserved for future timer controls. Press to reset.",
+      "Controllers": [
+        "Encoder"
+      ],
+      "States": [
+        {
+          "Image": "imgs/actions/action"
+        }
+      ],
+      "Encoder": {
+        "layout": "layouts/dial.json",
+        "StackColor": "#FFCAB1",
+        "TriggerDescription": {
+          "Rotate": "Reserved",
+          "Push": "Reset"
+        }
+      }
+    }
+  ]
+}
